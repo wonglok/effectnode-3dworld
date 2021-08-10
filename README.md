@@ -111,6 +111,17 @@ function Content3D() {
 export default App
 ```
 
+# Blender Custom Properties
+
+| Custom Properties | Feature / Function                                      |
+| ----------------- | ------------------------------------------------------- |
+| enableBloom = 1   | Make it Glow                                            |
+| enableDarken = 1  | Make it Draken to prevent Glow overlaying               |
+| isHoverable = 1   | Make it Hoverable by 3d Pointer                         |
+| isFloor = 1       | Make it as floor so that we can walk on staris          |
+| slot = image      | Make it customisable for user image (work in progress)  |
+| slot = mesh       | Make it customisable for user object (work in progress) |
+
 # Blender Demo File
 
 [Blender Demo File](https://github.com/wonglok/effectnode-3dworld/tree/master/demo-files/demomap.blend)
