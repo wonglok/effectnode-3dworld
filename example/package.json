@@ -10,6 +10,9 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
+    "three": "link:../node_modules/three",
+    "@react-three/fiber": "link:../node_modules/@react-three/fiber",
+    "@react-three/drei": "link:../node_modules/@react-three/drei",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "link:../node_modules/react-scripts",

@@ -1,6 +1,33 @@
-import React from 'react'
-import styles from './styles.module.css'
+import { getID } from './utils/get-id'
+import { makeShallowStore } from './utils/make-shallow-store'
+import { useMiniEngine } from './utils/use-mini-engine'
+import { useAutoEvent, applyAutoEvent } from './utils/use-auto-event'
+import { Collider } from './lib/Collider'
+import { MapPlayer } from './lib/MapPlayer'
+import { Mini } from './lib/Mini'
 
-export const ExampleComponent = ({ text }) => {
-  return <div className={styles.test}>Example Component: {text}</div>
+///
+import { Map3D } from './compos/Map3D'
+import { UserContorls } from './compos/UserContorls'
+import { TailCursor } from './compos/TailCursor'
+import { SimpleBloomer } from './compos/SimpleBloomer'
+import { StarSky } from './compos/StarSky'
+
+//
+export {
+  getID,
+  makeShallowStore,
+  useAutoEvent,
+  applyAutoEvent,
+  useMiniEngine,
+  Mini,
+  MapPlayer,
+  Collider,
+  //
+
+  Map3D,
+  UserContorls,
+  TailCursor,
+  SimpleBloomer,
+  StarSky
 }
