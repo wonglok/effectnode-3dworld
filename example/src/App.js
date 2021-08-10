@@ -11,6 +11,7 @@ import {
   EnvLightByImage
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
+import { Vector3 } from 'three'
 
 // needs trailing slash
 export const BASE_URL =
@@ -45,8 +46,9 @@ const App = () => {
 function Content3D() {
   let gltf = useGLTF(`${BASE_URL}map/demo-map-000.glb`)
 
-  let floor = useMemo(() => {
+  let { floor, startAt } = useMemo(() => {
     let floor = SkeletonUtils.clone(gltf.scene)
+    let startAt = new Vector3(0, 0, 0)
 
     floor.traverse((it) => {
       if (it) {
@@ -56,16 +58,19 @@ function Content3D() {
         if (it.geometry) {
           it.userData.isFloor = true
         }
+        if (it?.userData?.startAt) {
+          it.getWorldPosition(startAt)
+        }
       }
     })
 
-    return floor
+    return { floor, startAt }
   }, [gltf])
 
   return (
     <group>
       {floor && (
-        <Map3D floor={floor} startAt={{ x: 0, y: 0, z: 0 }}>
+        <Map3D floor={floor} startAt={startAt}>
           {({ Now }) => {
             return (
               <group>
