@@ -1,20 +1,34 @@
 import React, { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { useGLTF } from '@react-three/drei'
+import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 
 import {
   Map3D,
   UserContorls,
   TailCursor,
   SimpleBloomer,
-  StarSky
+  StarSky,
+  EnvLightByImage
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 
 const App = () => {
   return (
     <Canvas style={{ width: '100%', height: '100%' }}>
-      <Suspense fallback={null}>
+      <Suspense
+        fallback={
+          <group>
+            <group rotation-x={Math.PI * 0}>
+              <gridHelper args={[150, 50, 0x232323, 0xaaaaaa]}></gridHelper>
+            </group>
+            <PerspectiveCamera
+              position={[0, 20, 20]}
+              rotation-x={Math.PI * -0.25}
+              makeDefault={true}
+            ></PerspectiveCamera>
+          </group>
+        }
+      >
         <Content3D></Content3D>
       </Suspense>
     </Canvas>
@@ -48,7 +62,11 @@ function Content3D() {
           {({ Now }) => {
             return (
               <group>
-                <UserContorls Now={Now}></UserContorls>
+                <UserContorls
+                  higherCamera={1.5}
+                  avatarSpeed={2}
+                  Now={Now}
+                ></UserContorls>
                 <TailCursor Now={Now}></TailCursor>
               </group>
             )
@@ -59,6 +77,7 @@ function Content3D() {
       <primitive object={floor}></primitive>
       <SimpleBloomer></SimpleBloomer>
       <directionalLight position={[10, 10, 10]}></directionalLight>
+      <EnvLightByImage imageURL={'/image/sky.png'}></EnvLightByImage>
 
       <StarSky></StarSky>
     </group>

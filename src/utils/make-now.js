@@ -13,6 +13,7 @@ export const makeNow = () => {
     avatarFaceLook: new Vector3(),
     avatarLoading: true,
     avatarMode: 'standing',
+    avatarSpeed: 1.0,
 
     keyW: false,
     keyA: false,

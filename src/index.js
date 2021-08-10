@@ -12,6 +12,7 @@ import { UserContorls } from './compos/UserContorls'
 import { TailCursor } from './compos/TailCursor'
 import { SimpleBloomer } from './compos/SimpleBloomer'
 import { StarSky } from './compos/StarSky'
+import { EnvLightByImage } from './compos/EnvLightByImage'
 
 //
 export {
@@ -29,5 +30,6 @@ export {
   UserContorls,
   TailCursor,
   SimpleBloomer,
-  StarSky
+  StarSky,
+  EnvLightByImage
 }

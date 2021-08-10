@@ -135,7 +135,6 @@ export function StarSky() {
     <Sphere
       frustumCulled={false}
       userData={{
-        isHoverable: true,
         enableBloom: true
       }}
       scale={1}

@@ -5,8 +5,9 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { applyAutoEvent, useAutoEvent } from '../utils/use-auto-event'
 import { useMiniEngine } from '../utils/use-mini-engine'
 import { CursorTrackerTail } from '../lib/CursorTrackerTail'
+import { PerspectiveCamera } from '@react-three/drei'
 
-export function UserContorls({ Now }) {
+export function UserContorls({ Now, avatarSpeed = 2, higherCamera = 1.5 }) {
   let { get, gl } = useThree()
   let works = useRef({
     //
@@ -39,7 +40,7 @@ export function UserContorls({ Now }) {
   useEffect(() => {
     let orig = Now.camMode
     Now.camMode = 'first'
-    Now.avatarSpeed = 2
+    Now.avatarSpeed = avatarSpeed
     return () => {
       Now.avatarSpeed = 1
       Now.camMode = orig
@@ -261,7 +262,7 @@ export function UserContorls({ Now }) {
       Now.goingTo.add(forward)
 
       camera.position.x = Now.avatarAt.x
-      camera.position.y = Now.avatarAt.y + 0.1
+      camera.position.y = Now.avatarAt.y + higherCamera
       camera.position.z = Now.avatarAt.z
 
       camera.rotation.copy(fakeCam.rotation)
@@ -288,6 +289,14 @@ export function UserContorls({ Now }) {
     <group>
       {/*  */}
       {/*  */}
+      <PerspectiveCamera
+        fov={45}
+        near={0.1}
+        far={10000}
+        position={[0, 20, 20]}
+        rotation-x={Math.PI * -0.25}
+        makeDefault
+      />
     </group>
   )
 }
