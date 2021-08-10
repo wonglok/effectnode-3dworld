@@ -6,7 +6,7 @@
 
 # Screenshot
 
-![alt text](https://github.com/wonglok/effectnode-3dworld/blob/master/demo-screenshots/3dworld.png?raw=true)
+![Demo](https://github.com/wonglok/effectnode-3dworld/blob/master/demo-screenshots/3dworld.png?raw=true)
 
 ## Install
 
@@ -110,6 +110,14 @@ function Content3D() {
 
 export default App
 ```
+
+# Blender Demo File
+
+[Blender Demo File](https://github.com/wonglok/effectnode-3dworld/tree/master/demo-files/demomap.blend)
+
+# Blender GLTF Export Settings
+
+![Export Blender GLTF](https://github.com/wonglok/effectnode-3dworld/blob/master/demo-screenshots/export-settings.png?raw=true)
 
 ## License
 
