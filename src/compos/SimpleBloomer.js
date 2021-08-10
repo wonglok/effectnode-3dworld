@@ -29,7 +29,7 @@ export class BloomLayer {
   constructor({ mini }) {
     let { get } = mini.now
 
-    let reducedRes = 0.35
+    let reducedRes = 0.75
     let resBloom = new Vector2()
     resBloom.copy({
       x: get().gl.domElement.width,
@@ -46,7 +46,7 @@ export class BloomLayer {
 
     let efComposer = new EffectComposer(get().gl)
     mini.onResize(() => {
-      efComposer.setPixelRatio(get().gl.getPixelRatio())
+      efComposer.setPixelRatio(get().gl.getPixelRatio() * reducedRes)
     })
 
     let renderPass = new RenderPass(get().scene, get().camera)

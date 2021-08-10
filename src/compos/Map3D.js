@@ -38,8 +38,8 @@ export const Map3D = ({ children, floor, startAt }) => {
       }
 
       if (hit) {
-        if (Now.hoverData !== hit?.object?.userData) {
-          Now.hoverData = hit?.object?.userData || null
+        if (Now.hoverData !== hit.object.userData) {
+          Now.hoverData = hit.object.userData || null
         }
       } else {
         if (Now.hoverData !== null) {

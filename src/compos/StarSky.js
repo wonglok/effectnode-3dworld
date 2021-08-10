@@ -97,7 +97,7 @@ export function StarSky() {
 
       void main() {
         float speed = time / 3.5;
-        vec3 pp = vUv3 * 600.0;
+        vec3 pp = vUv3.xyx * 600.0;
         // pp = vPos * 0.25 + speed;
         float noise = clamp(cnoise(speed + pp / 250.0 + 0.0 ), 0.0, 1.0);
 
