@@ -4,6 +4,10 @@
 
 [![NPM](https://img.shields.io/npm/v/effectnode-3dworld.svg)](https://www.npmjs.com/package/effectnode-3dworld) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+# Screenshot
+
+![alt text](https://github.com/wonglok/effectnode-3dworld/blob/master/demo-screenshots/3dworld.png?raw=true)
+
 ## Install
 
 ```bash
