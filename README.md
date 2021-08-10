@@ -117,8 +117,8 @@ export default App
 | ----------------- | ------------------------------------------------------- |
 | enableBloom = 1   | Make it Glow                                            |
 | enableDarken = 1  | Make it Draken to prevent Glow overlaying               |
-| isHoverable = 1   | Make it Hoverable by 3d Pointer                         |
 | isFloor = 1       | Make it as floor so that we can walk on staris          |
+| isHoverable = 1   | Make it Hoverable by 3d Pointer                         |
 | slot = image      | Make it customisable for user image (work in progress)  |
 | slot = mesh       | Make it customisable for user object (work in progress) |
 
