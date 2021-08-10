@@ -37,8 +37,14 @@ export const Map3D = ({ children, floor, startAt }) => {
         Now.cursorNormal.copy(hit.face.normal)
       }
 
-      if (Now.hoverData !== hit?.object?.userData) {
-        Now.hoverData = hit?.object?.userData || null
+      if (hit) {
+        if (Now.hoverData !== hit?.object?.userData) {
+          Now.hoverData = hit?.object?.userData || null
+        }
+      } else {
+        if (Now.hoverData !== null) {
+          Now.hoverData = null
+        }
       }
 
       mapPlayer.onSimulate()

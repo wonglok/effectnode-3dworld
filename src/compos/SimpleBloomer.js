@@ -125,7 +125,6 @@ export class BloomLayer {
         if (it.material) {
           if (it?.userData?.enableDarken) {
             darken(it)
-            return
           } else if (it?.userData?.enableBloom) {
             it.material = it.userData.originalMaterial
           } else if (darkLayer.test(it.layers) || !bloomLayer.test(it.layers)) {
@@ -176,7 +175,7 @@ export class BloomLayer {
     }
 
     this.renderTexture = () => {
-      let { scene, gl } = get()
+      let { gl } = get()
       gl.shadowMap.enabled = false
 
       // bloom with occulsion image
