@@ -13,7 +13,10 @@ import {
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 
 // needs trailing slash
-export const BASE_URL = `https://wonglok.github.io/effectnode-3dworld/`
+export const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? `https://wonglok.github.io/effectnode-3dworld/`
+    : `/`
 
 const App = () => {
   return (
