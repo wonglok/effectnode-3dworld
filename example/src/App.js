@@ -36,7 +36,9 @@ const App = () => {
 }
 
 function Content3D() {
-  let gltf = useGLTF(`/map/demo-map-000.glb`)
+  let gltf = useGLTF(
+    `https://wonglok.github.io/effectnode-3dworld/map/demo-map-000.glb`
+  )
 
   let floor = useMemo(() => {
     let floor = SkeletonUtils.clone(gltf.scene)
@@ -77,7 +79,9 @@ function Content3D() {
       <primitive object={floor}></primitive>
       <SimpleBloomer></SimpleBloomer>
       <directionalLight position={[10, 10, 10]}></directionalLight>
-      <EnvLightByImage imageURL={'/image/sky.png'}></EnvLightByImage>
+      <EnvLightByImage
+        imageURL={'https://wonglok.github.io/effectnode-3dworld/image/sky.png'}
+      ></EnvLightByImage>
 
       <StarSky></StarSky>
     </group>
