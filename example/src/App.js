@@ -12,11 +12,15 @@ import {
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 
+// needs trailing slash
+export const BASE_URL = `https://wonglok.github.io/effectnode-3dworld/`
+
 const App = () => {
   return (
     <Canvas style={{ width: '100%', height: '100%' }}>
       <Suspense
         fallback={
+          // Loading screen
           <group>
             <group rotation-x={Math.PI * 0}>
               <gridHelper args={[150, 50, 0x232323, 0xaaaaaa]}></gridHelper>
@@ -36,9 +40,7 @@ const App = () => {
 }
 
 function Content3D() {
-  let gltf = useGLTF(
-    `https://wonglok.github.io/effectnode-3dworld/map/demo-map-000.glb`
-  )
+  let gltf = useGLTF(`${BASE_URL}map/demo-map-000.glb`)
 
   let floor = useMemo(() => {
     let floor = SkeletonUtils.clone(gltf.scene)
@@ -77,13 +79,12 @@ function Content3D() {
       )}
 
       <primitive object={floor}></primitive>
-      <SimpleBloomer></SimpleBloomer>
       <directionalLight position={[10, 10, 10]}></directionalLight>
-      <EnvLightByImage
-        imageURL={'https://wonglok.github.io/effectnode-3dworld/image/sky.png'}
-      ></EnvLightByImage>
+      <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
 
+      {/* extras */}
       <StarSky></StarSky>
+      <SimpleBloomer></SimpleBloomer>
     </group>
   )
 }
