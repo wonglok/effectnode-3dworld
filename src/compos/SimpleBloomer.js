@@ -145,8 +145,6 @@ export class BloomLayer {
 
             enableDarkenMap.set(it.uuid, globalDarkening)
 
-            //
-            it.material = it.material.clone()
             it.material.onBeforeCompile =
               onBeforeCompileForStdMat(globalDarkening)
             it.material.needsUpdate = true
@@ -162,10 +160,6 @@ export class BloomLayer {
     let setBloomSceneMat = () => {
       let { scene } = get()
       scene.traverse((it) => {
-        // if (it.isLight) {
-        //   it.visible = false
-        // }
-
         if (it?.userData?.discard) {
           it.visible = false
         }
@@ -195,15 +189,9 @@ export class BloomLayer {
       let { scene } = get()
 
       scene.traverse((it) => {
-        if (it?.material) {
-          if (enableDarkenMap.has(it.uuid)) {
-            enableDarkenMap.get(it.uuid).value = false
-          }
+        if (enableDarkenMap.has(it.uuid)) {
+          enableDarkenMap.get(it.uuid).value = false
         }
-
-        // if (it.isLight) {
-        //   it.visible = true
-        // }
 
         if (it?.userData?.discard) {
           it.visible = true
