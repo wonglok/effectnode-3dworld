@@ -20,7 +20,6 @@ npm install --save effectnode-3dworld
 import React, { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useGLTF, PerspectiveCamera } from '@react-three/drei'
-
 import {
   Map3D,
   UserContorls,
@@ -42,21 +41,7 @@ export const BASE_URL =
 const App = () => {
   return (
     <Canvas dpr={[0, 1.5]} style={{ width: '100%', height: '100%' }}>
-      <Suspense
-        fallback={
-          // Loading screen
-          <group>
-            <group rotation-x={Math.PI * 0}>
-              <gridHelper args={[150, 50, 0x232323, 0xaaaaaa]}></gridHelper>
-            </group>
-            <PerspectiveCamera
-              position={[0, 20, 20]}
-              rotation-x={Math.PI * -0.25}
-              makeDefault={true}
-            ></PerspectiveCamera>
-          </group>
-        }
-      >
+      <Suspense fallback={<LoadingScreen></LoadingScreen>}>
         <Content3D></Content3D>
       </Suspense>
     </Canvas>
@@ -89,36 +74,53 @@ function Content3D() {
 
   return (
     <group>
+      <SimpleBloomer></SimpleBloomer>
+
       {floor && (
         <Map3D floor={floor} startAt={startAt}>
           {({ Now }) => {
             return (
               <group>
+                <TailCursor Now={Now}></TailCursor>
                 <UserContorls
                   higherCamera={1.5}
                   avatarSpeed={2}
                   Now={Now}
                 ></UserContorls>
                 <Tooltip Now={Now}></Tooltip>
-                <TailCursor Now={Now}></TailCursor>
+                <primitive object={floor}></primitive>
               </group>
             )
           }}
         </Map3D>
       )}
 
-      <primitive object={floor}></primitive>
       <directionalLight position={[10, 10, 10]}></directionalLight>
       <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
-
-      {/* extras */}
       <StarSky></StarSky>
-      <SimpleBloomer></SimpleBloomer>
+    </group>
+  )
+}
+
+function LoadingScreen() {
+  return (
+    <group>
+      <group rotation-x={Math.PI * 0}>
+        <gridHelper args={[150, 50, 0x232323, 0xbababa]}></gridHelper>
+      </group>
+
+      <PerspectiveCamera
+        position={[0, 30, 30]}
+        rotation-x={Math.PI * -0.25}
+        makeDefault={true}
+      ></PerspectiveCamera>
     </group>
   )
 }
 
 export default App
+
+//
 ```
 
 ## Blender Custom Properties

@@ -1,7 +1,6 @@
 import React, { Suspense, useMemo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { useGLTF, PerspectiveCamera, Text } from '@react-three/drei'
-
+import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 import {
   Map3D,
   UserContorls,
@@ -27,22 +26,6 @@ const App = () => {
         <Content3D></Content3D>
       </Suspense>
     </Canvas>
-  )
-}
-
-function LoadingScreen() {
-  return (
-    <group>
-      <group rotation-x={Math.PI * 0}>
-        <gridHelper args={[150, 50, 0x232323, 0xbababa]}></gridHelper>
-      </group>
-
-      <PerspectiveCamera
-        position={[0, 30, 30]}
-        rotation-x={Math.PI * -0.25}
-        makeDefault={true}
-      ></PerspectiveCamera>
-    </group>
   )
 }
 
@@ -96,6 +79,22 @@ function Content3D() {
       <directionalLight position={[10, 10, 10]}></directionalLight>
       <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
       <StarSky></StarSky>
+    </group>
+  )
+}
+
+function LoadingScreen() {
+  return (
+    <group>
+      <group rotation-x={Math.PI * 0}>
+        <gridHelper args={[150, 50, 0x232323, 0xbababa]}></gridHelper>
+      </group>
+
+      <PerspectiveCamera
+        position={[0, 30, 30]}
+        rotation-x={Math.PI * -0.25}
+        makeDefault={true}
+      ></PerspectiveCamera>
     </group>
   )
 }
