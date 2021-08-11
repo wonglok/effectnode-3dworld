@@ -5,7 +5,12 @@ import {
   Color,
   Layers,
   MeshBasicMaterial,
+  MeshLambertMaterial,
+  MeshMatcapMaterial,
+  MeshPhongMaterial,
+  MeshPhysicalMaterial,
   MeshStandardMaterial,
+  MeshToonMaterial,
   ShaderMaterial,
   sRGBEncoding,
   Vector2,
@@ -75,7 +80,7 @@ export class BloomLayer {
     efComposer.renderToScreen = false
 
     let dark = new Color('#000000')
-    let darkMat = new MeshBasicMaterial({ color: 0x000000, skinning: true })
+    // let darkMat = new MeshBasicMaterial({ color: 0x000000, skinning: true })
     let baseLayer = new Layers()
     baseLayer.disableAll()
     baseLayer.enable(ENTIRE_SCENE)
@@ -123,7 +128,16 @@ export class BloomLayer {
       // darkMat.needsUpdate = true;
 
       if (!enableDarkenMap.has(it.uuid)) {
-        if (it.material && it.material instanceof MeshStandardMaterial) {
+        if (
+          it.material &&
+          (it.material instanceof MeshStandardMaterial ||
+            it.material instanceof MeshPhongMaterial ||
+            it.material instanceof MeshBasicMaterial ||
+            it.material instanceof MeshLambertMaterial ||
+            it.material instanceof MeshMatcapMaterial ||
+            it.material instanceof MeshPhysicalMaterial ||
+            it.material instanceof MeshToonMaterial)
+        ) {
           let str = it.material.onBeforeCompile.toString()
           if (str !== onBeforeCompileForStdMat.toString()) {
             let globalDarkening = { value: false }
