@@ -35,7 +35,7 @@ export class BloomLayer {
   constructor({ mini }) {
     let { get } = mini.now
 
-    let reducedRes = 0.75
+    let reducedRes = 0.7
     let resBloom = new Vector2()
     resBloom.copy({
       x: get().gl.domElement.width,
@@ -238,6 +238,7 @@ export class BaseLayer {
         x: get().gl.domElement.width,
         y: get().gl.domElement.height
       })
+
       resBase.multiplyScalar(gl.getPixelRatio())
 
       this.rtt = new WebGLRenderTarget(resBase.width, resBase.height, {

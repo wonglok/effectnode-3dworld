@@ -8,7 +8,8 @@ import {
   TailCursor,
   SimpleBloomer,
   StarSky,
-  EnvLightByImage
+  EnvLightByImage,
+  ResFixer
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 import { Vector3 } from 'three'
@@ -92,7 +93,9 @@ function Content3D() {
 
       {/* extras */}
       <StarSky></StarSky>
-      <SimpleBloomer></SimpleBloomer>
+      <ResFixer>
+        <SimpleBloomer></SimpleBloomer>
+      </ResFixer>
     </group>
   )
 }

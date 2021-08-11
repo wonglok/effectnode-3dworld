@@ -4026,7 +4026,7 @@ destroy@~1.0.4:
   resolved "https://registry.yarnpkg.com/destroy/-/destroy-1.0.4.tgz#978857442c44749e4206613e37946205826abd80"
   integrity sha1-l4hXRCxEdJ5CBmE+N5RiBYJqvYA=
 
-detect-gpu@^3.0.0:
+detect-gpu@^3.0.0, detect-gpu@^3.1.12:
   version "3.1.12"
   resolved "https://registry.yarnpkg.com/detect-gpu/-/detect-gpu-3.1.12.tgz#fc343765d9e4c1a5c6543441ae246778c5e87569"
   integrity sha512-cjSD8wyHykxun3TdEv2HfQZOs5iBmQFf/xoVWTrnz3Ktvjn5vNs6vAoFzsyTrW4KPtOtzCnJHrkc3YKj81Okkw==
