@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { useFrame } from '@react-three/fiber'
 import {
   Color,
   Layers,
   MeshBasicMaterial,
+  MeshStandardMaterial,
   ShaderMaterial,
   sRGBEncoding,
   Vector2,
@@ -86,37 +87,70 @@ export class BloomLayer {
     darkLayer.disableAll()
     darkLayer.enable(DARK_SCENE)
 
-    let darken = (it) => {
-      if (!it.text) {
-        it.material = darkMat
-        darkMat.needsUpdate = true
-      }
-      // darkMat.needsUpdate = true;
+    let onBeforeCompileForStdMat = (globalDarkening) => (shader) => {
+      shader.uniforms.globalDarkening = globalDarkening
+      let atBegin = `
+        uniform bool globalDarkening;
+
+      `
+      let atEnd = `
+        if (globalDarkening) {
+          gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        }
+      `
+
+      shader.fragmentShader = `${atBegin.trim()}\n${shader.fragmentShader}`
+      shader.fragmentShader = shader.fragmentShader.replace(
+        `#include <dithering_fragment>`,
+        `#include <dithering_fragment>\n${atEnd.trim()}`
+      )
     }
 
-    let backup = () => {
+    let setup = () => {
       let { scene } = get()
+      scene.traverse((it) => {})
+    }
 
-      scene.traverse((it) => {
-        if (it.material) {
-          it.userData.originalMaterial = it.material
-          it.userData.originalRoughness = it.material.roughness
-          it.userData.originalMetalness = it.material.metalness
-          it.userData.originalColor = it.material.color || new Color('#ffffff')
-          if (it.material?.uniforms?.color?.value) {
-            it.userData.originalUniformColor = it.material.uniforms.color.value
+    let enableDarkenMap = new Map()
+
+    let darken = (it) => {
+      //
+
+      // if (!it.text) {
+      //   it.material = darkMat
+      //   darkMat.needsUpdate = true
+      // }
+      // darkMat.needsUpdate = true;
+
+      if (!enableDarkenMap.has(it.uuid)) {
+        if (it.material && it.material instanceof MeshStandardMaterial) {
+          let str = it.material.onBeforeCompile.toString()
+          if (str !== onBeforeCompileForStdMat.toString()) {
+            let globalDarkening = { value: false }
+            it.userData.globalDarkening = globalDarkening
+
+            enableDarkenMap.set(it.uuid, globalDarkening)
+
+            //
+            it.material = it.material.clone()
+            it.material.onBeforeCompile =
+              onBeforeCompileForStdMat(globalDarkening)
+            it.material.needsUpdate = true
           }
         }
-      })
+      }
+
+      if (enableDarkenMap.has(it.uuid)) {
+        enableDarkenMap.get(it.uuid).value = true
+      }
     }
 
     let setBloomSceneMat = () => {
       let { scene } = get()
-
       scene.traverse((it) => {
-        if (it.isLight) {
-          it.visible = false
-        }
+        // if (it.isLight) {
+        //   it.visible = false
+        // }
 
         if (it?.userData?.discard) {
           it.visible = false
@@ -126,11 +160,9 @@ export class BloomLayer {
           if (it?.userData?.enableDarken) {
             darken(it)
           } else if (it?.userData?.enableBloom) {
-            it.material = it.userData.originalMaterial
           } else if (darkLayer.test(it.layers) || !bloomLayer.test(it.layers)) {
             darken(it)
           } else {
-            it.material = it.userData.originalMaterial
           }
         }
       })
@@ -147,26 +179,17 @@ export class BloomLayer {
 
     let restore = () => {
       let { scene } = get()
+
       scene.traverse((it) => {
-        if (!it.text && it.material && it.userData.originalMaterial) {
-          it.material = it.userData.originalMaterial
-
-          if (it?.material?.color && it?.userData?.originalColor) {
-            it.material.color = it.userData.originalColor
-          }
-
-          if (it?.userData?.originalRoughness) {
-            it.material.roughness = it.userData.originalRoughness
-            it.material.metalness = it.userData.originalMetalness
-          }
-
-          if (it.material?.uniforms?.color?.value) {
-            it.material.uniforms.color.value = it.userData.originalUniformColor
+        if (it?.material) {
+          if (enableDarkenMap.has(it.uuid)) {
+            enableDarkenMap.get(it.uuid).value = false
           }
         }
-        if (it.isLight) {
-          it.visible = true
-        }
+
+        // if (it.isLight) {
+        //   it.visible = true
+        // }
 
         if (it?.userData?.discard) {
           it.visible = true
@@ -179,7 +202,7 @@ export class BloomLayer {
       gl.shadowMap.enabled = false
 
       // bloom with occulsion image
-      backup()
+      setup()
       setBloomSceneMat()
       renderToTexture()
       restore()
