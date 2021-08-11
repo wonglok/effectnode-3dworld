@@ -13,7 +13,6 @@ import { TailCursor } from './compos/TailCursor'
 import { SimpleBloomer } from './compos/SimpleBloomer'
 import { StarSky } from './compos/StarSky'
 import { EnvLightByImage } from './compos/EnvLightByImage'
-import { ResFixer } from './compos/ResFixer'
 //
 export {
   getID,
@@ -31,6 +30,5 @@ export {
   TailCursor,
   SimpleBloomer,
   StarSky,
-  EnvLightByImage,
-  ResFixer
+  EnvLightByImage
 }

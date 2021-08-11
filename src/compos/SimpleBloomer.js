@@ -35,7 +35,7 @@ export class BloomLayer {
   constructor({ mini }) {
     let { get } = mini.now
 
-    let reducedRes = 0.7
+    let reducedRes = 0.75
     let resBloom = new Vector2()
     resBloom.copy({
       x: get().gl.domElement.width,

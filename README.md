@@ -40,7 +40,7 @@ export const BASE_URL =
 
 const App = () => {
   return (
-    <Canvas style={{ width: '100%', height: '100%' }}>
+    <Canvas dpr={[0, 1.5]} style={{ width: '100%', height: '100%' }}>
       <Suspense
         fallback={
           // Loading screen
