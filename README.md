@@ -27,7 +27,8 @@ import {
   TailCursor,
   SimpleBloomer,
   StarSky,
-  EnvLightByImage
+  EnvLightByImage,
+  Tooltip
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 import { Vector3 } from 'three'
@@ -98,6 +99,7 @@ function Content3D() {
                   avatarSpeed={2}
                   Now={Now}
                 ></UserContorls>
+                <Tooltip Now={Now}></Tooltip>
                 <TailCursor Now={Now}></TailCursor>
               </group>
             )
@@ -121,15 +123,15 @@ export default App
 
 ## Blender Custom Properties
 
-| Custom Properties | Feature / Function                               |
-| ----------------- | ------------------------------------------------ |
-| startAt = 1       | Make its world position as starting point of map |
-| enableBloom = 1   | Make it Glow                                     |
-| enableDarken = 1  | Make it Draken to prevent Glow overlaying        |
-| isFloor = 1       | Make it as floor so that we can walk on staris   |
-| isHoverable = 1   | Make it Hoverable by 3d Pointer                  |
-| onClick = 1       | event name                                       |
-| hint = "My Name"  | Display tooltip when hovered                     |
+| Custom Properties   | Feature / Function                               |
+| ------------------- | ------------------------------------------------ |
+| startAt = 1         | Make its world position as starting point of map |
+| enableBloom = 1     | Make it Glow                                     |
+| enableDarken = 1    | Make it Draken to prevent Glow overlaying        |
+| isFloor = 1         | Make it as floor so that we can walk on staris   |
+| isHoverable = 1     | Make it Hoverable by 3d Pointer                  |
+| onClick = 1         | enable click                                     |
+| tooltip = "My Name" | Display Tooltip when hovered                     |
 
 ## Blender Demo File
 

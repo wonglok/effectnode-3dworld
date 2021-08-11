@@ -41,9 +41,15 @@ export const Map3D = ({ children, floor, startAt }) => {
         if (Now.hoverData !== hit.object.userData) {
           Now.hoverData = hit.object.userData || null
         }
+        if (Now.tooltip !== hit.object.userData?.tooltip) {
+          Now.tooltip = hit.object.userData.tooltip
+        }
       } else {
         if (Now.hoverData !== null) {
           Now.hoverData = null
+        }
+        if (Now.tooltip !== '') {
+          Now.tooltip = ''
         }
       }
 

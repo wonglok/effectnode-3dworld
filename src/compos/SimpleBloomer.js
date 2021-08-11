@@ -163,6 +163,9 @@ export class BloomLayer {
         if (it?.userData?.discard) {
           it.visible = false
         }
+        if (it?.userData?.disableBloom) {
+          it.visible = false
+        }
 
         if (it.material) {
           if (it?.userData?.enableDarken) {
@@ -194,6 +197,9 @@ export class BloomLayer {
         }
 
         if (it?.userData?.discard) {
+          it.visible = true
+        }
+        if (it?.userData?.disableBloom) {
           it.visible = true
         }
       })

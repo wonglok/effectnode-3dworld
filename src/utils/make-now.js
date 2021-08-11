@@ -15,6 +15,7 @@ export const makeNow = () => {
     avatarMode: 'standing',
     avatarSpeed: 1.0,
 
+    tooltip: '',
     keyW: false,
     keyA: false,
     keyS: false,

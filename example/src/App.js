@@ -8,7 +8,8 @@ import {
   TailCursor,
   SimpleBloomer,
   StarSky,
-  EnvLightByImage
+  EnvLightByImage,
+  Tooltip
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 import { Vector3 } from 'three'
@@ -79,6 +80,7 @@ function Content3D() {
                   avatarSpeed={2}
                   Now={Now}
                 ></UserContorls>
+                <Tooltip Now={Now}></Tooltip>
                 <TailCursor Now={Now}></TailCursor>
               </group>
             )
