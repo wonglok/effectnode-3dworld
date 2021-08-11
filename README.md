@@ -119,23 +119,23 @@ function Content3D() {
 export default App
 ```
 
-# Blender Custom Properties
+## Blender Custom Properties
 
-| Custom Properties | Feature / Function                                      |
-| ----------------- | ------------------------------------------------------- |
-| startAt = 1       | Make its world position as starting point of map        |
-| enableBloom = 1   | Make it Glow                                            |
-| enableDarken = 1  | Make it Draken to prevent Glow overlaying               |
-| isFloor = 1       | Make it as floor so that we can walk on staris          |
-| isHoverable = 1   | Make it Hoverable by 3d Pointer                         |
-| slot = image      | Make it customisable for user image (work in progress)  |
-| slot = mesh       | Make it customisable for user object (work in progress) |
+| Custom Properties | Feature / Function                               |
+| ----------------- | ------------------------------------------------ |
+| startAt = 1       | Make its world position as starting point of map |
+| enableBloom = 1   | Make it Glow                                     |
+| enableDarken = 1  | Make it Draken to prevent Glow overlaying        |
+| isFloor = 1       | Make it as floor so that we can walk on staris   |
+| isHoverable = 1   | Make it Hoverable by 3d Pointer                  |
+| onClick = 1       | event name                                       |
+| hint = "My Name"  | Display tooltip when hovered                     |
 
-# Blender Demo File
+## Blender Demo File
 
 [Blender Demo File](https://github.com/wonglok/effectnode-3dworld/tree/master/demo-files/demomap.blend)
 
-# Blender GLTF Export Settings
+## Blender GLTF Export Settings
 
 ![Export Blender GLTF](https://github.com/wonglok/effectnode-3dworld/blob/master/demo-screenshots/export-settings.png?raw=true)
 

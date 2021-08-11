@@ -12,7 +12,7 @@ import {
   // DataTexture,
   // DataUtils,
   // RGBFormat,
-  AdditiveBlending,
+  // AdditiveBlending,
   Object3D
 } from 'three'
 // import { GPUComputationRenderer } from 'three-stdlib'
@@ -446,11 +446,11 @@ class LokLokWiggleDisplay {
 
           vec4 matcapColor = texture2D( matcap, uv );
 
-          gl_FragColor = vec4(vec3(1.0, 1.0, 1.0), (1.0 - vT));
+          gl_FragColor = vec4(vec3(0.0, 1.0, 1.0) * 0.5, (1.0 - vT));
         }
       `,
       transparent: true,
-      blending: AdditiveBlending,
+      // blending: AdditiveBlending,
       depthTest: false
     })
 
@@ -738,8 +738,8 @@ export class CursorTrackerTail {
         },
         update: ({ origin, orbit }) => {
           origin.rotation.z += 0.1
-          // origin.rotation["y"] += 0.1;
-          orbit.position.y = 2 * Math.sin(window.performance.now() / 1000)
+          orbit.position.x =
+            0.85 + 0.85 * Math.sin((window.performance.now() / 1000) * 1)
         }
       })
     }

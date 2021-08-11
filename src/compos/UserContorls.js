@@ -308,7 +308,6 @@ export function TailCursor({ Now }) {
 
   useEffect(() => {
     let mouse = cursor.current
-    console.log(123)
     if (mouse) {
       mini.ready.scene.then((scene) => {
         return new CursorTrackerTail({ mini, cursor: mouse, mounter: scene })
@@ -322,7 +321,7 @@ export function TailCursor({ Now }) {
     if (cursor.current) {
       let mouse = cursor.current
 
-      mouse.position.lerp(Now.cursorPos, 0.4)
+      mouse.position.lerp(Now.cursorPos, 0.25)
 
       // mouse.scale.setScalar(0.15);
 
