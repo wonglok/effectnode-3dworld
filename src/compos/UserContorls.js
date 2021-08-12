@@ -9,8 +9,7 @@ import { PerspectiveCamera } from '@react-three/drei'
 
 export function UserContorls({
   Now,
-  startAt,
-  startLookAt,
+  //
   avatarSpeed = 2,
   higherCamera = 1.5
 }) {
@@ -21,8 +20,8 @@ export function UserContorls({
 
   useEffect(() => {
     //
-    Now.avatarAt.copy(startAt)
-    Now.goingTo.copy(startAt)
+    Now.avatarAt.copy(Now.startAt)
+    Now.goingTo.copy(Now.startAt)
   })
 
   useAutoEvent(
@@ -107,8 +106,8 @@ export function UserContorls({
     orbit.enableDamping = true
     orbit.rotateSpeed = 0.5
 
-    fakeCam.position.copy(startAt)
-    orbit.target.copy(startLookAt)
+    fakeCam.position.copy(Now.startAt)
+    orbit.target.copy(Now.startLookAt)
 
     let joystick = document.createElement('div')
 

@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react'
+import React, { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 import {
@@ -11,8 +11,6 @@ import {
   Tooltip,
   TheHelper
 } from 'effectnode-3dworld'
-import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
-import { Vector3 } from 'three'
 
 //
 // needs trailing slash
@@ -33,32 +31,32 @@ const App = () => {
 
 function Content3D() {
   let gltf = useGLTF(`${BASE_URL}map/demo-map-000.glb`)
+  let floor = gltf.scene
 
-  let { floor, startAt, startLookAt } = useMemo(() => {
-    let floor = SkeletonUtils.clone(gltf.scene)
-    let startAt = new Vector3(0, 0, 0)
-    let startLookAt = new Vector3(0, 0, 0)
+  // let { floor, startAt, startLookAt } = useMemo(() => {
+  //   let floor = SkeletonUtils.clone(gltf.scene)
+  //   let startAt = new Vector3(0, 0, 0)
+  //   let startLookAt = new Vector3(0, 0, 0)
 
-    floor.traverse((it) => {
-      if (it) {
-        if (it?.userData?.startAt) {
-          it.getWorldPosition(startAt)
-        }
-        if (it?.userData?.startLookAt) {
-          it.getWorldPosition(startLookAt)
-        }
-      }
-    })
+  //   floor.traverse((it) => {
+  //     if (it) {
+  //       if (it?.userData?.startAt) {
+  //         it.getWorldPosition(startAt)
+  //       }
+  //       if (it?.userData?.startLookAt) {
+  //         it.getWorldPosition(startLookAt)
+  //       }
+  //     }
+  //   })
 
-    return { floor, startAt, startLookAt }
-  }, [gltf])
+  //   return { floor, startAt, startLookAt }
+  // }, [gltf])
 
   return (
     <group>
-      <SimpleBloomer></SimpleBloomer>
-
       {floor && (
-        <Map3D floor={floor} startLookAt={startLookAt} startAt={startAt}>
+        //floor={floor} startLookAt={startLookAt} startAt={startAt}
+        <Map3D object={floor}>
           {({ Now }) => {
             return (
               <group>
@@ -67,18 +65,16 @@ function Content3D() {
                   higherCamera={1.5}
                   avatarSpeed={2}
                   Now={Now}
-                  startAt={startAt}
-                  startLookAt={startLookAt}
                 ></UserContorls>
                 <Tooltip Now={Now}></Tooltip>
                 <TheHelper Now={Now}></TheHelper>
-                <primitive object={floor}></primitive>
               </group>
             )
           }}
         </Map3D>
       )}
 
+      <SimpleBloomer></SimpleBloomer>
       <directionalLight position={[10, 10, 10]}></directionalLight>
       <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
       <StarSky></StarSky>
