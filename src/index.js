@@ -14,6 +14,8 @@ import { SimpleBloomer } from './compos/SimpleBloomer'
 import { StarSky } from './compos/StarSky'
 import { EnvLightByImage } from './compos/EnvLightByImage'
 import { Tooltip } from './compos/Tooltip'
+import { TheHelper } from './compos/TheHelper'
+
 //
 export {
   getID,
@@ -32,5 +34,6 @@ export {
   SimpleBloomer,
   StarSky,
   EnvLightByImage,
-  Tooltip
+  Tooltip,
+  TheHelper
 }

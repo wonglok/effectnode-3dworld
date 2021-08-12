@@ -8,7 +8,8 @@ import {
   SimpleBloomer,
   StarSky,
   EnvLightByImage,
-  Tooltip
+  Tooltip,
+  TheHelper
 } from 'effectnode-3dworld'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
 import { Vector3 } from 'three'
@@ -69,6 +70,7 @@ function Content3D() {
                   Now={Now}
                 ></UserContorls>
                 <Tooltip Now={Now}></Tooltip>
+                <TheHelper Now={Now}></TheHelper>
                 <primitive object={floor}></primitive>
               </group>
             )
