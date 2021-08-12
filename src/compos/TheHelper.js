@@ -1,14 +1,15 @@
 import { useFrame, useThree } from '@react-three/fiber'
 import React, { useEffect, useRef } from 'react'
+import { MathUtils } from 'three'
 import { useAutoEvent } from '../utils/use-auto-event'
 
 export function TheHelper({ Now }) {
   return (
     <group>
-      <TheCrossHair Now={Now}>
+      <TheCursor Now={Now}>
         {/*  */}
         {/*  */}
-      </TheCrossHair>
+      </TheCursor>
       <ClickToOpen Now={Now}>
         {/*  */}
         {/*  */}
@@ -22,7 +23,7 @@ export function TheHelper({ Now }) {
   )
 }
 
-function TheCrossHair({ Now }) {
+function TheCursor({ Now }) {
   let core = useRef()
   let orbit = useRef()
 
@@ -48,19 +49,42 @@ function TheCrossHair({ Now }) {
             +
           </Text> */}
           <group scale={0.001} rotation={[0, 0, Math.PI * 0.25]}>
-            <mesh position={[0, -9 / 2, 0]}>
-              <coneBufferGeometry args={[4, 9, 3, 1]}></coneBufferGeometry>
-              <meshBasicMaterial color='black'></meshBasicMaterial>
-            </mesh>
-            <mesh position={[0, -11, 0]}>
-              <boxBufferGeometry args={[2, 5, 2]}></boxBufferGeometry>
-              <meshBasicMaterial color='black'></meshBasicMaterial>
-            </mesh>
+            <Floating Now={Now}>
+              <mesh userData={{ enableBloom: true }} position={[0, -9 / 2, 0]}>
+                <coneBufferGeometry args={[4, 9, 3, 1]}></coneBufferGeometry>
+                <meshBasicMaterial color='white'></meshBasicMaterial>
+              </mesh>
+              <mesh userData={{ enableBloom: true }} position={[0, -11, 0]}>
+                <boxBufferGeometry args={[2, 5, 2]}></boxBufferGeometry>
+                <meshBasicMaterial color='white'></meshBasicMaterial>
+              </mesh>
+            </Floating>
           </group>
         </group>
       </group>
     </group>
   )
+}
+
+function Floating({ Now, children }) {
+  const ref = useRef()
+  useFrame(({ clock }) => {
+    let time = clock.getElapsedTime()
+    if (ref.current) {
+      //
+      let target = 0
+      if (Now?.hoverData?.website) {
+        target = -3 + Math.cos(time * 5.0) * 3
+      }
+      ref.current.position.y = MathUtils.lerp(
+        ref.current.position.y,
+        target,
+        0.5
+      )
+    }
+  })
+  //
+  return <group ref={ref}>{children}</group>
 }
 
 function ClickToOpen({ Now }) {
@@ -121,7 +145,7 @@ function HideCursor() {
   useAutoEvent(
     'pointerdown',
     () => {
-      document.body.style.cursor = 'grabbing'
+      document.body.style.cursor = 'none'
     },
     { passive: false },
     document.body
@@ -129,7 +153,7 @@ function HideCursor() {
   useAutoEvent(
     'pointerup',
     () => {
-      document.body.style.cursor = 'grab'
+      document.body.style.cursor = 'grabbing'
     },
     { passive: false },
     document.body
@@ -137,7 +161,7 @@ function HideCursor() {
 
   useEffect(() => {
     //
-    document.body.style.cursor = 'grab'
+    document.body.style.cursor = 'grabbing'
 
     return () => {
       document.body.style.cursor = ''
