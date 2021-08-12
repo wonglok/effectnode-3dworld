@@ -31,32 +31,11 @@ const App = () => {
 
 function Content3D() {
   let gltf = useGLTF(`${BASE_URL}map/demo-map-000.glb`)
-  let floor = gltf.scene
-
-  // let { floor, startAt, startLookAt } = useMemo(() => {
-  //   let floor = SkeletonUtils.clone(gltf.scene)
-  //   let startAt = new Vector3(0, 0, 0)
-  //   let startLookAt = new Vector3(0, 0, 0)
-
-  //   floor.traverse((it) => {
-  //     if (it) {
-  //       if (it?.userData?.startAt) {
-  //         it.getWorldPosition(startAt)
-  //       }
-  //       if (it?.userData?.startLookAt) {
-  //         it.getWorldPosition(startLookAt)
-  //       }
-  //     }
-  //   })
-
-  //   return { floor, startAt, startLookAt }
-  // }, [gltf])
 
   return (
     <group>
-      {floor && (
-        //floor={floor} startLookAt={startLookAt} startAt={startAt}
-        <Map3D object={floor}>
+      {gltf.scene && (
+        <Map3D object={gltf.scene}>
           {({ Now }) => {
             return (
               <group>
@@ -74,8 +53,11 @@ function Content3D() {
         </Map3D>
       )}
 
+      <directionalLight
+        position={[10, 10, 10]}
+        intensit={0.3}
+      ></directionalLight>
       <SimpleBloomer></SimpleBloomer>
-      <directionalLight position={[10, 10, 10]}></directionalLight>
       <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
       <StarSky></StarSky>
     </group>
