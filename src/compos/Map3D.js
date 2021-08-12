@@ -34,13 +34,30 @@ export const Map3D = ({ children, floor, startAt }) => {
       Now
     }))
 
+    let lastScan = false
     mini.onLoop(() => {
+      //
       const { camera, scene } = get()
       const hit = colliderManager.scanCenter({ camera, scene })
 
       if (hit) {
         Now.cursorPos.copy(hit.point)
         Now.cursorNormal.copy(hit.face.normal)
+      }
+
+      // lighup
+      if (hit) {
+        if (hit.object.userData.website || hit.object.userData.tooltip) {
+          if (lastScan) {
+            lastScan.userData.enableBloom = false
+          }
+          hit.object.userData.enableBloom = true
+          lastScan = hit.object
+        }
+      } else {
+        if (lastScan) {
+          lastScan.userData.enableBloom = false
+        }
       }
 
       if (hit) {

@@ -734,7 +734,7 @@ export class CursorTrackerTail {
       trackers.push(lerpWorldPos)
     }
 
-    let count = 7
+    let count = 3
     for (let i = 0; i < count; i++) {
       makeTracker({
         setup: ({ origin, orbit }) => {

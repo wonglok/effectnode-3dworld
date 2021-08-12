@@ -35,7 +35,7 @@ export function TailCursor({ Now, color }) {
     if (cursor.current) {
       let mouse = cursor.current
 
-      mouse.position.lerp(Now.cursorPos, 0.4)
+      mouse.position.lerp(Now.cursorPos, 0.2)
 
       // mouse.scale.setScalar(0.15);
 

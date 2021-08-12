@@ -32,8 +32,6 @@ function TheCursor({ Now }) {
       core.current.position.copy(camera.position)
       core.current.rotation.copy(camera.rotation)
     }
-    if (orbit.current) {
-    }
   })
 
   return (
@@ -50,13 +48,15 @@ function TheCursor({ Now }) {
           </Text> */}
           <group scale={0.001} rotation={[0, 0, Math.PI * 0.25]}>
             <Floating Now={Now}>
-              <mesh userData={{ enableBloom: true }} position={[0, -9 / 2, 0]}>
+              {/*  */}
+              <mesh position={[0, -9 / 2, 0]}>
                 <coneBufferGeometry args={[4, 9, 3, 1]}></coneBufferGeometry>
-                <meshBasicMaterial color='white'></meshBasicMaterial>
+                <meshBasicMaterial color='#000000'></meshBasicMaterial>
               </mesh>
-              <mesh userData={{ enableBloom: true }} position={[0, -11, 0]}>
+              {/*  */}
+              <mesh position={[0, -11, 0]}>
                 <boxBufferGeometry args={[2, 5, 2]}></boxBufferGeometry>
-                <meshBasicMaterial color='white'></meshBasicMaterial>
+                <meshBasicMaterial color='#000000'></meshBasicMaterial>
               </mesh>
             </Floating>
           </group>

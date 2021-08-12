@@ -66,7 +66,7 @@ export class BloomLayer {
     })
     efComposer.addPass(renderPass)
 
-    let unrealPass = new UnrealBloomPass(resBloom, 2, 1, 0.1)
+    let unrealPass = new UnrealBloomPass(resBloom, 1.5, 1, 0.1)
     mini.onResize(() => {
       resBloom.copy({
         x: get().gl.domElement.width,
@@ -180,6 +180,7 @@ export class BloomLayer {
         if (it?.userData?.discard) {
           it.visible = false
         }
+
         if (it?.userData?.disableBloom) {
           it.visible = false
         }
@@ -285,6 +286,7 @@ export class BaseLayer {
     }
   }
 }
+
 export class Compositor {
   constructor({ mini }) {
     //

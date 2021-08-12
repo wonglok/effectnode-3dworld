@@ -62,7 +62,7 @@ function Content3D() {
           {({ Now }) => {
             return (
               <group>
-                <TailCursor Now={Now} color={'#ffff00'}></TailCursor>
+                <TailCursor Now={Now} color={'#bababa'}></TailCursor>
                 <UserContorls
                   higherCamera={1.5}
                   avatarSpeed={2}
