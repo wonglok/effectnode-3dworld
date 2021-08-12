@@ -111,16 +111,33 @@ export class BloomLayer {
       )
     }
 
+    let uniqueMaterialMap = new Map()
     let setup = () => {
       let { scene } = get()
-      scene.traverse((it) => {})
+      scene.traverse((it) => {
+        if (
+          it.material &&
+          (it.material instanceof MeshStandardMaterial ||
+            it.material instanceof MeshPhongMaterial ||
+            it.material instanceof MeshBasicMaterial ||
+            it.material instanceof MeshLambertMaterial ||
+            it.material instanceof MeshMatcapMaterial ||
+            it.material instanceof MeshPhysicalMaterial ||
+            it.material instanceof MeshToonMaterial)
+        ) {
+          if (!uniqueMaterialMap.has(it.uuid + it.material.uuid)) {
+            if (it.material?.clone) {
+              it.material = it.material.clone()
+              uniqueMaterialMap.set(it.uuid + it.material.uuid, true)
+            }
+          }
+        }
+      })
     }
 
     let enableDarkenMap = new Map()
 
     let darken = (it) => {
-      //
-
       // if (!it.text) {
       //   it.material = darkMat
       //   darkMat.needsUpdate = true

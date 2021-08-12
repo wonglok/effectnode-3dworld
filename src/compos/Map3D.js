@@ -18,9 +18,6 @@ export const Map3D = ({ children, floor, startAt }) => {
       if (it.geometry) {
         it.userData.isFloor = true
       }
-      if (it.material) {
-        it.material = it.material.clone()
-      }
     })
 
     //
