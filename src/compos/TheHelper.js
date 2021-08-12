@@ -2,7 +2,19 @@ import { Text } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import React, { useEffect, useRef } from 'react'
 
-export function TheHelper({ onClick }) {
+export function TheHelper() {
+  return (
+    <group>
+      <TheCrossHair>
+        {/*  */}
+        {/*  */}
+      </TheCrossHair>
+    </group>
+  )
+}
+
+//
+function TheCrossHair() {
   //
   let core = useRef()
   let orbit = useRef()
@@ -37,7 +49,3 @@ export function TheHelper({ onClick }) {
     </group>
   )
 }
-
-//
-
-//
