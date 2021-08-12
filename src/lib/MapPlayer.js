@@ -11,10 +11,6 @@ import {
 
 export class MapPlayer {
   constructor({ collider, startAt, Now }) {
-    //
-    Now.avatarAt.copy(startAt)
-    Now.goingTo.copy(startAt)
-
     this.collider = collider
     const RoundedBoxGeometry =
       require('three/examples/jsm/geometries/RoundedBoxGeometry.js').RoundedBoxGeometry

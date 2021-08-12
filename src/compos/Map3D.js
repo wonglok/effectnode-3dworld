@@ -14,6 +14,15 @@ export const Map3D = ({ children, floor, startAt }) => {
   const nowRef = useRef()
   const mapPlayerRef = useRef()
   useEffect(() => {
+    floor.traverse((it) => {
+      if (it.geometry) {
+        it.userData.isFloor = true
+      }
+      if (it.material) {
+        it.material = it.material.clone()
+      }
+    })
+
     //
     const colliderManager = (colliderRef.current = new Collider({
       floor,
@@ -75,7 +84,6 @@ export const Map3D = ({ children, floor, startAt }) => {
         typeof children === 'function' &&
         children({ Now: nowRef.current })}
 
-      {/*  */}
       {/*  */}
       {/*  */}
     </group>

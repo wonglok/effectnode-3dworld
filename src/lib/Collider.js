@@ -82,7 +82,13 @@ export class Collider {
     const result = []
     const source = []
     scene.traverse((it) => {
-      if (it.geometry && it.userData.isHoverable) {
+      if (
+        it.geometry &&
+        (it?.userData?.isHoverable ||
+          it?.userData?.isFloor ||
+          it?.userData?.tooltip ||
+          it?.userData?.website)
+      ) {
         source.push(it)
       }
     })

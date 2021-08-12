@@ -13,7 +13,8 @@ import {
   // DataUtils,
   // RGBFormat,
   // AdditiveBlending,
-  Object3D
+  Object3D,
+  Color
 } from 'three'
 // import { GPUComputationRenderer } from 'three-stdlib'
 import { Geometry } from 'three/examples/jsm/deprecated/Geometry.js'
@@ -185,10 +186,11 @@ class LokLokWiggleSimulation {
 }
 
 class LokLokWiggleDisplay {
-  constructor({ node, sim, mounter }) {
+  constructor({ node, sim, mounter, color }) {
     this.mounter = mounter
     this.node = node
     this.sim = sim
+    this.color = color
     this.wait = this.setup({ node })
   }
 
@@ -305,6 +307,7 @@ class LokLokWiggleDisplay {
 
     let matLine0 = new ShaderMaterial({
       uniforms: {
+        tailColor: { value: this.color },
         time: { value: 0 },
         matcap: {
           value: null
@@ -436,17 +439,18 @@ class LokLokWiggleDisplay {
         // varying vec2 vUv;
         varying vec3 vNormal;
         varying vec3 vViewPosition;
-        uniform sampler2D matcap;
+        // uniform sampler2D matcap;
+        uniform vec3 tailColor;
         void main (void) {
 
-          vec3 viewDir = normalize( vViewPosition );
-          vec3 x = normalize( vec3( viewDir.z, 0.0, - viewDir.x ) );
-          vec3 y = cross( viewDir, x );
-          vec2 uv = vec2( dot( x, vNormal ), dot( y, vNormal ) ) * 0.495 + 0.5; // 0.495 to remove artifacts caused by undersized matcap disks
+          // vec3 viewDir = normalize( vViewPosition );
+          // vec3 x = normalize( vec3( viewDir.z, 0.0, - viewDir.x ) );
+          // vec3 y = cross( viewDir, x );
+          // vec2 uv = vec2( dot( x, vNormal ), dot( y, vNormal ) ) * 0.495 + 0.5; // 0.495 to remove artifacts caused by undersized matcap disks
 
-          vec4 matcapColor = texture2D( matcap, uv );
+          // vec4 matcapColor = texture2D( matcap, uv );
 
-          gl_FragColor = vec4(vec3(0.0, 1.0, 1.0) * 0.5, (1.0 - vT));
+          gl_FragColor = vec4(tailColor, (1.0 - vT));
         }
       `,
       transparent: true,
@@ -683,7 +687,7 @@ class NoodleGeo {
 }
 
 export class CursorTrackerTail {
-  constructor({ mini, mounter, cursor }) {
+  constructor({ mini, mounter, cursor, color = new Color('#ffffff') }) {
     let node = mini
     let SCAN_COUNT = 8
     let TAIL_LENGTH = 64
@@ -696,7 +700,7 @@ export class CursorTrackerTail {
       trailSize: TAIL_LENGTH
     })
 
-    let display = new LokLokWiggleDisplay({ node, sim, mounter })
+    let display = new LokLokWiggleDisplay({ node, sim, mounter, color })
     this.display = display
 
     let trackers = []

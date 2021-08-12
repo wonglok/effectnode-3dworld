@@ -125,15 +125,15 @@ export default App
 
 ## Blender Custom Properties
 
-| Custom Properties   | Feature / Function                               |
-| ------------------- | ------------------------------------------------ |
-| startAt = 1         | Make its world position as starting point of map |
-| enableBloom = 1     | Make it Glow                                     |
-| enableDarken = 1    | Make it Draken to prevent Glow overlaying        |
-| isFloor = 1         | Make it as floor so that we can walk on staris   |
-| isHoverable = 1     | Make it Hoverable by 3d Pointer                  |
-| onClick = 1         | enable click                                     |
-| tooltip = "My Name" | Display Tooltip when hovered                     |
+| Custom Properties     | Feature / Function                               |
+| --------------------- | ------------------------------------------------ |
+| startAt = 1           | Make its world position as starting point of map |
+| enableBloom = 1       | Make it Glow                                     |
+| enableDarken = 1      | Make it Draken to prevent Glow overlaying        |
+| isFloor = 1           | Make it as floor so that we can walk on staris   |
+| isHoverable = 1       | Make it Hoverable by 3d Pointer                  |
+| website = wonglok.com | Open website iframe                              |
+| tooltip = "My Name"   | Display Tooltip when hovered                     |
 
 ## Blender Demo File
 
