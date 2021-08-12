@@ -11,11 +11,12 @@ export function Tooltip({ Now, ...props }) {
         anchorX='left'
         anchorY='top'
         userData={{ disableBloom: true }}
-        outlineWidth={0.005}
+        outlineWidth={0.002}
         fontSize={0.04}
         {...props}
       >
-        {Now.hoverData?.website ? 'Click to open:\n' : ''} {Now.tooltip || ''}
+        {Now.hoverData?.website ? 'Click to Open:\n' : ''}
+        {Now.tooltip || ''}
       </Text>
     </group>,
     camera

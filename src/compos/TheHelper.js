@@ -1,4 +1,3 @@
-import { Text } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import React, { useEffect, useRef } from 'react'
 import { useAutoEvent } from '../utils/use-auto-event'
@@ -23,15 +22,9 @@ export function TheHelper({ Now }) {
   )
 }
 
-//
 function TheCrossHair({ Now }) {
-  //
   let core = useRef()
   let orbit = useRef()
-
-  useEffect(() => {
-    //
-  }, [])
 
   useFrame(({ camera }) => {
     if (core.current) {
@@ -46,14 +39,24 @@ function TheCrossHair({ Now }) {
     <group>
       <group ref={core}>
         <group ref={orbit} scale={[1, 1, 1]} position={[0, 0, -1]}>
-          <Text
+          {/* <Text
             fontSize={0.01}
             outlineColor='black'
             outlineWidth={0.001}
             color='white'
           >
             +
-          </Text>
+          </Text> */}
+          <group scale={0.001} rotation={[0, 0, Math.PI * 0.25]}>
+            <mesh position={[0, -9 / 2, 0]}>
+              <coneBufferGeometry args={[4, 9, 3, 1]}></coneBufferGeometry>
+              <meshBasicMaterial color='black'></meshBasicMaterial>
+            </mesh>
+            <mesh position={[0, -11, 0]}>
+              <boxBufferGeometry args={[2, 5, 2]}></boxBufferGeometry>
+              <meshBasicMaterial color='black'></meshBasicMaterial>
+            </mesh>
+          </group>
         </group>
       </group>
     </group>
@@ -115,8 +118,6 @@ function ClickToOpen({ Now }) {
 }
 
 function HideCursor() {
-  //
-
   useAutoEvent(
     'pointerdown',
     () => {
