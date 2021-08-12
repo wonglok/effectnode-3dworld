@@ -2,23 +2,15 @@ import { useFrame, useThree } from '@react-three/fiber'
 import React, { useEffect, useRef } from 'react'
 import { MathUtils } from 'three'
 import { useAutoEvent } from '../utils/use-auto-event'
+import { Tooltip } from './Tooltip'
 
 export function TheHelper({ Now }) {
   return (
     <group>
-      <TheCursor Now={Now}>
-        {/*  */}
-        {/*  */}
-      </TheCursor>
-      <ClickToOpen Now={Now}>
-        {/*  */}
-        {/*  */}
-      </ClickToOpen>
-
-      <HideCursor>
-        {/*  */}
-        {/*  */}
-      </HideCursor>
+      <TheCursor Now={Now}></TheCursor>
+      <ClickToOpen Now={Now}></ClickToOpen>
+      <Tooltip Now={Now}></Tooltip>
+      <HideCursor></HideCursor>
     </group>
   )
 }
@@ -160,12 +152,9 @@ function HideCursor() {
   )
 
   useEffect(() => {
-    //
     document.body.style.cursor = 'grabbing'
-
     return () => {
       document.body.style.cursor = ''
-      //
     }
   }, [])
   return null

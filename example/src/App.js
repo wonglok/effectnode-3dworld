@@ -1,5 +1,5 @@
-import React, { Suspense, useEffect } from 'react'
-import { Canvas, useThree } from '@react-three/fiber'
+import React, { Suspense } from 'react'
+import { Canvas } from '@react-three/fiber'
 import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 import {
   Map3D,
@@ -8,7 +8,6 @@ import {
   SimpleBloomer,
   StarSky,
   EnvLightByImage,
-  Tooltip,
   TheHelper
 } from 'effectnode-3dworld'
 
@@ -39,42 +38,24 @@ function Content3D() {
           {({ Now }) => {
             return (
               <group>
-                <TailCursor Now={Now} color={'#bababa'}></TailCursor>
                 <UserContorls
                   higherCamera={1.5}
                   avatarSpeed={2}
                   Now={Now}
                 ></UserContorls>
-                <Tooltip Now={Now}></Tooltip>
+                <TailCursor Now={Now} color={'#bababa'}></TailCursor>
                 <TheHelper Now={Now}></TheHelper>
               </group>
             )
           }}
         </Map3D>
       )}
-      <EnablePhysicalLight></EnablePhysicalLight>
-      <directionalLight
-        position={[10, 10, 10]}
-        intensit={0.3}
-      ></directionalLight>
+
       <SimpleBloomer></SimpleBloomer>
       <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
       <StarSky></StarSky>
     </group>
   )
-}
-
-function EnablePhysicalLight() {
-  let { gl } = useThree()
-
-  useEffect(() => {
-    gl.physicallyCorrectLights = true
-
-    return () => {
-      gl.physicallyCorrectLights = false
-    }
-  })
-  return null
 }
 
 function LoadingScreen() {

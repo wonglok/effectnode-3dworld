@@ -5,6 +5,7 @@ import { useMiniEngine } from '../utils/use-mini-engine'
 import { makeNow } from '../utils/make-now'
 import { MapPlayer } from '../lib/MapPlayer'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
+// import { Color, PointLight } from 'three'
 
 export const Map3D = ({ children, object }) => {
   const { get } = useThree()
@@ -16,11 +17,31 @@ export const Map3D = ({ children, object }) => {
 
   const [floor, setFloor] = useState(false)
 
+  let handleLights = (floor) => {
+    let { gl } = get()
+
+    gl.physicallyCorrectLights = true
+
+    // floor.traverse((it) => {
+    //   if (it?.userData?.pointLight) {
+    //     let ptl = new PointLight(
+    //       new Color(it.userData?.lightColor || '#ffffff'),
+    //       it.userData?.intensity || 500.0,
+    //       it.userData?.distance || 500.0
+    //     )
+    //     it.add(ptl)
+    //   }
+    // })
+
+    return () => {
+      gl.physicallyCorrectLights = false
+    }
+  }
+
   useEffect(() => {
     const Now = (nowRef.current = makeNow())
 
     let floor = SkeletonUtils.clone(object)
-
     floor.traverse((it) => {
       if (it) {
         if (it.userData.startAt) {
@@ -37,6 +58,7 @@ export const Map3D = ({ children, object }) => {
       }
     })
 
+    let cleanPhysical = handleLights(floor)
     setFloor(floor)
 
     const colliderManager = (colliderRef.current = new Collider({
@@ -96,6 +118,7 @@ export const Map3D = ({ children, object }) => {
     })
 
     return () => {
+      cleanPhysical()
       mini.clean()
     }
   }, [])

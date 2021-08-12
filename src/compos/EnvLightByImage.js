@@ -11,6 +11,7 @@ export function EnvLightByImage({ imageURL }) {
     const pmremGenerator = new PMREMGenerator(gl)
     pmremGenerator.compileEquirectangularShader()
 
+    texture.encoding = sRGBEncoding
     const envMap = pmremGenerator.fromEquirectangular(texture).texture
     envMap.encoding = sRGBEncoding
     // scene.background = envMap;
