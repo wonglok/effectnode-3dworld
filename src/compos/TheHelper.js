@@ -25,15 +25,19 @@ export function TheHelper({ onClick }) {
       <group ref={core}>
         <group ref={orbit} scale={[1, 1, 1]} position={[0, 0, -1]}>
           <Text
-            fontSize={0.025}
+            fontSize={0.01}
             outlineColor='black'
             outlineWidth={0.001}
             color='white'
           >
-            +
+            *
           </Text>
         </group>
       </group>
     </group>
   )
 }
+
+//
+
+//
