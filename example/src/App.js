@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
+import React, { Suspense, useEffect } from 'react'
+import { Canvas, useThree } from '@react-three/fiber'
 import { useGLTF, PerspectiveCamera } from '@react-three/drei'
 import {
   Map3D,
@@ -52,7 +52,7 @@ function Content3D() {
           }}
         </Map3D>
       )}
-
+      <EnablePhysicalLight></EnablePhysicalLight>
       <directionalLight
         position={[10, 10, 10]}
         intensit={0.3}
@@ -62,6 +62,19 @@ function Content3D() {
       <StarSky></StarSky>
     </group>
   )
+}
+
+function EnablePhysicalLight() {
+  let { gl } = useThree()
+
+  useEffect(() => {
+    gl.physicallyCorrectLights = true
+
+    return () => {
+      gl.physicallyCorrectLights = false
+    }
+  })
+  return null
 }
 
 function LoadingScreen() {
