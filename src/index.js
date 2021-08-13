@@ -6,7 +6,10 @@ import { Collider } from './lib/Collider'
 import { MapPlayer } from './lib/MapPlayer'
 import { Mini } from './lib/Mini'
 
-///
+//
+import { useComputeEnvMap } from './use/useComputeEnvMap'
+
+//
 import { Map3D } from './compos/Map3D'
 import { UserContorls } from './compos/UserContorls'
 import { TailCursor } from './compos/TailCursor'
@@ -15,6 +18,7 @@ import { StarSky } from './compos/StarSky'
 import { EnvLightByImage } from './compos/EnvLightByImage'
 import { Tooltip } from './compos/Tooltip'
 import { TheHelper } from './compos/TheHelper'
+
 //
 export {
   getID,
@@ -34,5 +38,8 @@ export {
   StarSky,
   EnvLightByImage,
   Tooltip,
-  TheHelper
+  TheHelper,
+  //
+  //
+  useComputeEnvMap
 }

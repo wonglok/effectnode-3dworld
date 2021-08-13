@@ -16,7 +16,6 @@ export function TailCursor({ Now, color }) {
 
   useEffect(() => {
     let mouse = cursor.current
-    console.log(123)
     if (mouse) {
       mini.ready.scene.then((scene) => {
         return new CursorTrackerTail({

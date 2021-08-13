@@ -1,11 +1,11 @@
-import { useThree } from '@react-three/fiber'
-import React, { useEffect, useRef, useState } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import React, { useMemo, useEffect, useRef, useState } from 'react'
 import { Collider } from '../lib/Collider'
 import { useMiniEngine } from '../utils/use-mini-engine'
 import { makeNow } from '../utils/make-now'
 import { MapPlayer } from '../lib/MapPlayer'
 import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
-// import { Color, PointLight } from 'three'
+import { PCFSoftShadowMap, PointLight } from 'three'
 
 export const Map3D = ({ children, object }) => {
   const { get } = useThree()
@@ -17,21 +17,43 @@ export const Map3D = ({ children, object }) => {
 
   const [floor, setFloor] = useState(false)
 
+  useEffect(() => {
+    let { gl } = get()
+
+    gl.shadowMap.enabled = true
+    gl.shadowMap.type = PCFSoftShadowMap
+    //
+    return () => {}
+  }, [])
+
   let handleLights = (floor) => {
     let { gl } = get()
 
     gl.physicallyCorrectLights = true
 
-    // floor.traverse((it) => {
-    //   if (it?.userData?.pointLight) {
-    //     let ptl = new PointLight(
-    //       new Color(it.userData?.lightColor || '#ffffff'),
-    //       it.userData?.intensity || 500.0,
-    //       it.userData?.distance || 500.0
-    //     )
-    //     it.add(ptl)
-    //   }
-    // })
+    floor.traverse((it) => {
+      if (it?.userData?.castShadow) {
+        it.castShadow = true
+        it.traverse((sub) => {
+          sub.castShadow = true
+        })
+      }
+      if (it?.userData?.receiveShadow) {
+        it.receiveShadow = true
+        it.traverse((sub) => {
+          sub.receiveShadow = true
+        })
+      }
+    })
+
+    floor.traverse((it) => {
+      if (it instanceof PointLight && it.castShadow) {
+        it.shadow.mapSize.width = 512 // default
+        it.shadow.mapSize.height = 512 // default
+        it.shadow.camera.near = 0.5 // default
+        it.shadow.camera.far = 500 // default
+      }
+    })
 
     return () => {
       gl.physicallyCorrectLights = false
@@ -39,6 +61,7 @@ export const Map3D = ({ children, object }) => {
   }
 
   useEffect(() => {
+    //
     const Now = (nowRef.current = makeNow())
 
     let floor = SkeletonUtils.clone(object)
@@ -54,6 +77,7 @@ export const Map3D = ({ children, object }) => {
 
         if (it.geometry) {
           it.userData.isFloor = true
+          it.material.writeDepth = true
         }
       }
     })
