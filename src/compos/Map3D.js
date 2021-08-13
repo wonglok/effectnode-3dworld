@@ -98,6 +98,12 @@ export const Map3D = ({ children, object }) => {
       Now
     }))
 
+    let changeTailColor = (color = '#ffffff') => {
+      window.dispatchEvent(
+        new window.CustomEvent('set-tail-color', { detail: color })
+      )
+    }
+
     let lastScan = false
     mini.onLoop(() => {
       //
@@ -107,6 +113,17 @@ export const Map3D = ({ children, object }) => {
       if (hit) {
         Now.cursorPos.copy(hit.point)
         Now.cursorNormal.copy(hit.face.normal)
+      }
+
+      // hit
+      if (hit) {
+        if (hit.object.userData.website || hit.object.userData.tooltip) {
+          changeTailColor(hit.object.userData.hoverColor || '#00ffff')
+        } else {
+          changeTailColor('#ffffff')
+        }
+      } else {
+        changeTailColor('#ffffff')
       }
 
       // lighup

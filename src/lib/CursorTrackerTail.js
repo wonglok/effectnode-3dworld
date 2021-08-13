@@ -14,7 +14,11 @@ import {
   // RGBFormat,
   // AdditiveBlending,
   Object3D,
-  Color
+  Color,
+  SphereBufferGeometry,
+  MeshBasicMaterial,
+  AdditiveBlending,
+  MeshLambertMaterial
 } from 'three'
 // import { GPUComputationRenderer } from 'three-stdlib'
 import { Geometry } from 'three/examples/jsm/deprecated/Geometry.js'
@@ -305,6 +309,15 @@ class LokLokWiggleDisplay {
       return str
     }
 
+    let latestColor = new Color().copy(this.color)
+    window.addEventListener('set-tail-color', ({ detail: color }) => {
+      latestColor.set(color)
+    })
+
+    this.node.onLoop(() => {
+      this.color.lerp(latestColor, 0.03)
+    })
+
     let matLine0 = new ShaderMaterial({
       uniforms: {
         tailColor: { value: this.color },
@@ -421,7 +434,7 @@ class LokLokWiggleDisplay {
 
           vT = t;
 
-          vec2 volume = vec2(0.0333, 0.0333);
+          vec2 volume = vec2(0.0333, 0.0333) * (1.0 - t) * 2.0;
           createTube(t, volume, transformed, objectNormal);
 
           vec3 transformedNormal = normalMatrix * objectNormal;
@@ -450,6 +463,7 @@ class LokLokWiggleDisplay {
 
           // vec4 matcapColor = texture2D( matcap, uv );
 
+          vec4 color = vec4((vNormal * vViewPosition), 1.0);
           gl_FragColor = vec4(tailColor, (1.0 - vT));
         }
       `,
@@ -731,6 +745,7 @@ export class CursorTrackerTail {
 
         lerpWorldPos.lerp(worldPos, 0.3)
       })
+
       trackers.push(lerpWorldPos)
     }
 
