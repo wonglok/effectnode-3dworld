@@ -9,16 +9,8 @@ import {
   RepeatWrapping,
   ShaderMaterial,
   Mesh,
-  // DataTexture,
-  // DataUtils,
-  // RGBFormat,
-  // AdditiveBlending,
   Object3D,
-  Color,
-  SphereBufferGeometry,
-  MeshBasicMaterial,
-  AdditiveBlending,
-  MeshLambertMaterial
+  Color
 } from 'three'
 // import { GPUComputationRenderer } from 'three-stdlib'
 import { Geometry } from 'three/examples/jsm/deprecated/Geometry.js'
