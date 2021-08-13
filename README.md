@@ -75,7 +75,7 @@ function Content3D() {
       {/* Optional */}
       <ShaderEnvLight imageURL={`${BASE_URL}image/sky.png`}></ShaderEnvLight>
 
-      {/* StarSky */}
+      {/* Optional */}
       <StarSky></StarSky>
     </group>
   )
