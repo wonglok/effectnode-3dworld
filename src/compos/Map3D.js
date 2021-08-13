@@ -32,12 +32,14 @@ export const Map3D = ({ children, object }) => {
     gl.physicallyCorrectLights = true
 
     floor.traverse((it) => {
+      //
       if (it?.userData?.castShadow) {
         it.castShadow = true
         it.traverse((sub) => {
           sub.castShadow = true
         })
       }
+      //
       if (it?.userData?.receiveShadow) {
         it.receiveShadow = true
         it.traverse((sub) => {
@@ -48,10 +50,10 @@ export const Map3D = ({ children, object }) => {
 
     floor.traverse((it) => {
       if (it instanceof PointLight && it.castShadow) {
-        it.shadow.mapSize.width = 512 // default
-        it.shadow.mapSize.height = 512 // default
-        it.shadow.camera.near = 0.5 // default
-        it.shadow.camera.far = 500 // default
+        it.shadow.mapSize.width = 512
+        it.shadow.mapSize.height = 512
+        it.shadow.camera.near = 0.5
+        it.shadow.camera.far = 500
       }
     })
 
