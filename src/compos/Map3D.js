@@ -1,5 +1,5 @@
-import { useFrame, useThree } from '@react-three/fiber'
-import React, { useMemo, useEffect, useRef, useState } from 'react'
+import { useThree } from '@react-three/fiber'
+import React, { useEffect, useRef, useState } from 'react'
 import { Collider } from '../lib/Collider'
 import { useMiniEngine } from '../utils/use-mini-engine'
 import { makeNow } from '../utils/make-now'
@@ -39,6 +39,7 @@ export const Map3D = ({ children, object }) => {
           sub.castShadow = true
         })
       }
+
       //
       if (it?.userData?.receiveShadow) {
         it.receiveShadow = true
