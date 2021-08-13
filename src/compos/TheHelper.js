@@ -19,6 +19,18 @@ function TheCursor({ Now }) {
   let core = useRef()
   let orbit = useRef()
 
+  let mouse1 = useRef()
+  let mouse2 = useRef()
+
+  useAutoEvent('set-tail-color', ({ detail }) => {
+    if (mouse1.current) {
+      mouse1.current.material.color.set(detail)
+    }
+    if (mouse2.current) {
+      mouse2.current.material.color.set(detail)
+    }
+  })
+
   useFrame(({ camera }) => {
     if (core.current) {
       core.current.position.copy(camera.position)
@@ -41,12 +53,20 @@ function TheCursor({ Now }) {
           <group scale={0.001} rotation={[0, 0, Math.PI * 0.25]}>
             <Floating Now={Now}>
               {/*  */}
-              <mesh position={[0, -9 / 2, 0]}>
+              <mesh
+                userData={{ disableBloom: true }}
+                ref={mouse1}
+                position={[0, -9 / 2, 0]}
+              >
                 <coneBufferGeometry args={[4, 9, 3, 1]}></coneBufferGeometry>
                 <meshBasicMaterial color='#000000'></meshBasicMaterial>
               </mesh>
               {/*  */}
-              <mesh position={[0, -11, 0]}>
+              <mesh
+                userData={{ disableBloom: true }}
+                ref={mouse2}
+                position={[0, -11, 0]}
+              >
                 <boxBufferGeometry args={[2, 5, 2]}></boxBufferGeometry>
                 <meshBasicMaterial color='#000000'></meshBasicMaterial>
               </mesh>

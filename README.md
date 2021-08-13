@@ -17,21 +17,18 @@ npm install --save effectnode-3dworld
 ## Usage
 
 ```jsx
-import React, { Suspense, useMemo } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { useGLTF, PerspectiveCamera } from '@react-three/drei'
+import React, { Suspense, useEffect } from 'react'
+import { Canvas, useThree } from '@react-three/fiber'
+import { useGLTF, PerspectiveCamera, useTexture } from '@react-three/drei'
 import {
   Map3D,
   UserContorls,
   TailCursor,
   SimpleBloomer,
   StarSky,
-  EnvLightByImage,
-  Tooltip,
-  TheHelper
+  TheHelper,
+  useComputeEnvMap
 } from 'effectnode-3dworld'
-import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
-import { Vector3 } from 'three'
 
 //
 // needs trailing slash
@@ -53,56 +50,102 @@ const App = () => {
 function Content3D() {
   let gltf = useGLTF(`${BASE_URL}map/demo-map-000.glb`)
 
-  let { floor, startAt, startLookAt } = useMemo(() => {
-    let floor = SkeletonUtils.clone(gltf.scene)
-    let startAt = new Vector3(0, 0, 0)
-    let startLookAt = new Vector3(0, 0, 0)
-
-    floor.traverse((it) => {
-      if (it) {
-        if (it?.userData?.startAt) {
-          it.getWorldPosition(startAt)
-        }
-        if (it?.userData?.startLookAt) {
-          it.getWorldPosition(startLookAt)
-        }
-      }
-    })
-
-    return { floor, startAt, startLookAt }
-  }, [gltf])
-
   return (
     <group>
-      <SimpleBloomer></SimpleBloomer>
-
-      {floor && (
-        <Map3D floor={floor} startLookAt={startLookAt} startAt={startAt}>
+      {gltf.scene && (
+        <Map3D object={gltf.scene}>
           {({ Now }) => {
             return (
               <group>
-                <TailCursor Now={Now} color={'#ffff00'}></TailCursor>
                 <UserContorls
                   higherCamera={1.5}
                   avatarSpeed={2}
                   Now={Now}
-                  startAt={startAt}
-                  startLookAt={startLookAt}
                 ></UserContorls>
-                <Tooltip Now={Now}></Tooltip>
+                <TailCursor Now={Now} color={'#bababa'}></TailCursor>
                 <TheHelper Now={Now}></TheHelper>
-                <primitive object={floor}></primitive>
               </group>
             )
           }}
         </Map3D>
       )}
 
-      <directionalLight position={[10, 10, 10]}></directionalLight>
-      <EnvLightByImage imageURL={`${BASE_URL}image/sky.png`}></EnvLightByImage>
+      <SimpleBloomer></SimpleBloomer>
+
+      {/* Optional */}
+      <ShaderEnvLight imageURL={`${BASE_URL}image/sky.png`}></ShaderEnvLight>
+
+      {/* StarSky */}
       <StarSky></StarSky>
     </group>
   )
+}
+
+function ShaderEnvLight({ imageURL }) {
+  let tex = useTexture(imageURL)
+  let { get } = useThree()
+  let envMap = useComputeEnvMap(
+    /* glsl */ `
+      const mat2 m = mat2( 0.80,  0.60, -0.60,  0.80 );
+
+      float noise( in vec2 p ) {
+        return sin(p.x)*sin(p.y);
+      }
+
+      float fbm4( vec2 p ) {
+          float f = 0.0;
+          f += 0.5000 * noise( p ); p = m * p * 2.02;
+          f += 0.2500 * noise( p ); p = m * p * 2.03;
+          f += 0.1250 * noise( p ); p = m * p * 2.01;
+          f += 0.0625 * noise( p );
+          return f / 0.9375;
+      }
+
+      float fbm6( vec2 p ) {
+          float f = 0.0;
+          f += 0.500000*(0.5 + 0.5 * noise( p )); p = m*p*2.02;
+          f += 0.250000*(0.5 + 0.5 * noise( p )); p = m*p*2.03;
+          f += 0.125000*(0.5 + 0.5 * noise( p )); p = m*p*2.01;
+          f += 0.062500*(0.5 + 0.5 * noise( p )); p = m*p*2.04;
+          f += 0.031250*(0.5 + 0.5 * noise( p )); p = m*p*2.01;
+          f += 0.015625*(0.5 + 0.5 * noise( p ));
+          return f/0.96875;
+      }
+
+      float pattern (vec2 p) {
+        float vout = fbm4( p + time + fbm6(  p + fbm4( p + time )) );
+        return abs(vout);
+      }
+
+      uniform sampler2D textureBG;
+
+      vec4 mainImage (vec2 uv) {
+        vec4 bg = texture2D(textureBG, uv);
+
+        vec3 rainbow = vec3(
+          0.35 + pattern(uv * 1.70123 + -0.17 * cos(time * 0.05)),
+          0.35 + pattern(uv * 1.70123 +  0.0 * cos(time * 0.05)),
+          0.35 + pattern(uv * 1.70123 +  0.17 * cos(time * 0.05))
+        );
+
+        return vec4(rainbow.xyz, 1.0);
+      }
+  `.trim(),
+    {
+      textureBG: { value: tex }
+    },
+    128
+  )
+
+  useEffect(() => {
+    let { scene } = get()
+    scene.environment = envMap
+    return () => {
+      scene.environment = null
+    }
+  }, [envMap, get])
+
+  return null
 }
 
 function LoadingScreen() {
@@ -128,15 +171,16 @@ export default App
 
 ## Blender Custom Properties
 
-| Custom Properties     | Feature / Function                               |
-| --------------------- | ------------------------------------------------ |
-| startAt = 1           | Make its world position as starting point of map |
-| enableBloom = 1       | Make it Glow                                     |
-| enableDarken = 1      | Make it Draken to prevent Glow overlaying        |
-| isFloor = 1           | Make it as floor so that we can walk on staris   |
-| isHoverable = 1       | Make it Hoverable by 3d Pointer                  |
-| website = wonglok.com | Open website iframe                              |
-| tooltip = "My Name"   | Display Tooltip when hovered                     |
+| Custom Properties      | Feature / Function                               |
+| ---------------------- | ------------------------------------------------ |
+| startAt = 1            | Make its world position as starting point of map |
+| enableBloom = 1        | Make it Glow                                     |
+| enableDarken = 1       | Make it Draken to prevent Glow overlaying        |
+| isFloor = 1            | Make it as floor so that we can walk on staris   |
+| isHoverable = 1        | Make it Hoverable by 3d Pointer                  |
+| website = wonglok.com  | Open website iframe                              |
+| tooltip = "My Name"    | Display Tooltip when hovered                     |
+| hoverColor = "#ff0000" | Hover color for tail                             |
 
 ## Blender Demo File
 

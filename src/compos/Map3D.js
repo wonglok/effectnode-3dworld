@@ -98,10 +98,14 @@ export const Map3D = ({ children, object }) => {
       Now
     }))
 
+    let lastColor = ''
     let changeTailColor = (color = '#ffffff') => {
-      window.dispatchEvent(
-        new window.CustomEvent('set-tail-color', { detail: color })
-      )
+      if (lastColor !== color) {
+        lastColor = color
+        window.dispatchEvent(
+          new window.CustomEvent('set-tail-color', { detail: color })
+        )
+      }
     }
 
     let lastScan = false
