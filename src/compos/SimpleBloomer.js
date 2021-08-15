@@ -18,6 +18,9 @@ import {
 } from 'three'
 import { useMiniEngine } from '../utils/use-mini-engine'
 import { FullScreenQuad } from 'three/examples/jsm/postprocessing/Pass'
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass'
 
 export const ENTIRE_SCENE = 0
 export const BLOOM_SCENE = 1
@@ -42,13 +45,6 @@ export class BloomLayer {
       y: get().gl.domElement.height
     })
     resBloom.multiplyScalar(reducedRes)
-
-    let EffectComposer =
-      require('three/examples/jsm/postprocessing/EffectComposer').EffectComposer
-    let RenderPass =
-      require('three/examples/jsm/postprocessing/RenderPass').RenderPass
-    let UnrealBloomPass =
-      require('three/examples/jsm/postprocessing/UnrealBloomPass').UnrealBloomPass
 
     let efComposer = new EffectComposer(get().gl)
     mini.onResize(() => {

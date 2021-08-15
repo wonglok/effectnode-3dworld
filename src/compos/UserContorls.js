@@ -6,7 +6,7 @@ import { applyAutoEvent, useAutoEvent } from '../utils/use-auto-event'
 // import { useMiniEngine } from '../utils/use-mini-engine'
 // import { CursorTrackerTail } from '../lib/CursorTrackerTail'
 import { PerspectiveCamera } from '@react-three/drei'
-
+import nipplejs from 'nipplejs'
 export function UserContorls({
   Now,
   //
@@ -139,7 +139,6 @@ export function UserContorls({
     `
     note.innerHTML = `Walk Around JoyStick`
 
-    let nipplejs = require('nipplejs')
     var manager = nipplejs.create({
       zone: joystick,
       color: 'white',

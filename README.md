@@ -30,7 +30,6 @@ import {
   useComputeEnvMap
 } from 'effectnode-3dworld'
 
-//
 // needs trailing slash
 export const BASE_URL =
   process.env.NODE_ENV === 'production'

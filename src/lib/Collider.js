@@ -1,5 +1,8 @@
 import { Mesh, MeshBasicMaterial, Raycaster, Vector2 } from 'three'
 import { MeshBVH } from 'three-mesh-bvh'
+import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
+import { SkeletonUtils } from 'three/examples/jsm/utils/SkeletonUtils'
+
 export class Collider {
   constructor({ floor, scene }) {
     this.floor = floor
@@ -14,11 +17,6 @@ export class Collider {
 
   makeCollider() {
     const { scene, floor } = this
-    const BufferGeometryUtils =
-      require('three/examples/jsm/utils/BufferGeometryUtils').BufferGeometryUtils
-    const SkeletonUtils =
-      require('three/examples/jsm/utils/SkeletonUtils').SkeletonUtils
-
     const environment = SkeletonUtils.clone(floor)
 
     const geometries = []
